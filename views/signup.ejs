@@ -44,11 +44,22 @@
 
       <div class="right-container">
         <div class="thought">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, fugiat?
+          <div class="heading">Recommend a dish</div>
+          <span id="element"></span>
         </div>   
       </div>
     </div>
     <%- include('./partials/scripts') %>
+
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <!-- Setup and start animation -->
+    <script>
+        var typed = new Typed('#element', {
+        strings: ["to impress a date who's picky eater.....", 'to bring to a potluck.....', '"to unlock a world of recipes!"','to be the chef everyone talks about'],
+        typeSpeed: 50,
+        });
+    </script>
 </body>
 <script src="/javascripts/login.js" />
+   
 </html>
