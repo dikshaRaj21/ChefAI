@@ -1,7 +1,11 @@
 const { Router } = require("express");
 const router = Router();
 const Blog = require('../models/blogs');
+
+const { storage } = require('../utils/storage');
 const multer = require('multer');
+const upload = multer({ storage : storage })
+
 const path = require('path');
 const Comment = require('../models/comment');
 const { User } = require("../models/user");
@@ -43,62 +47,22 @@ router.get('/:id', async (req, res) => {
     return res.redirect(`/blog/${req.params.blogId}`)
   })
 
-  const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, path.resolve(`./public/uploads/`))
-    },
-    filename: function (req, file, cb) {
-      const fileName = `${Date.now()}-${file.originalname}`;
-      cb(null,fileName)
-    }
-  })
-  
-const upload = multer({ storage })
-const uploadMiddleware = upload.single('coverImage'); // Adjust 'coverImage' as necessary
-// router.post("/All", async (req, res) => {
-//   const { title, body } = req.body;
-//   // console.log(req.body);
-//   const blog = await Blog.create({
-//     body,
-//     title,
-//     createdBy: req.user._id,
-    
-//   });
-//   return res.redirect(`/blog/${blog._id}`);
-// });
-
-router.post("/All", async (req, res)=> {
-  uploadMiddleware(req, res, async (err) => {
-    console.log(err);
-    if (err instanceof multer.MulterError) {
-      console.log(err);
-      return res.status(400).json({
-        error: err.message,
-      });
-    } else if (err) {
-      return res.status(500).json({
-        error: 'File Upload failed',
-      });
-    }
-  });
-  console.log("Inside All Route")
-  // console.log(req.file);
+router.post("/All", upload.single('coverImage'), async (req, res)=> {
   try{
     const { title, body } = req.body;
-    // console.log(req.body);
     if (!title || !body) {
       return res.status(400).json({ error: 'Title and body are required' });
     }
-    
+    // console.log(req.file);
+
     const blog = await Blog.create({
           title,
           body,
           createdBy : req.user._id,
-          coverImageURL: `/uploads/${req.file?.filename}`,
+          coverImageURL: req.file.path,
       })  
       return res.redirect(`/blog/${blog._id}`) // redirects to blog/id of user, To which user it belongs
   }catch(err){
-    console.log(err);
     res.status(500).send("Error ")
   }
 })
@@ -145,15 +109,15 @@ router.post('/signin' , async ( req, res) => {
         })
         return res.redirect('/AllBlogs');
       }catch(error){
-        // console.log(error)
           res.render('signin', {
           error : "Incorrect Email or password"
         })
       }
 })
 
-
-
-
+router.post("/delete/:id", async(req, res) => {
+  const id = req.params.id;
+  const blogDeleted = await Blog.delete()
+})
 
 module.exports = router;

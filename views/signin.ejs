@@ -16,9 +16,9 @@
           
         <div class="heading-container mt-4 mx-4">
             <h3>Create an Account</h3>
-            <h6>Don't have an account <a href="/user/signup" class="text-muted">Signup</a></h6>
+            <h6>Don't have an account  <a href="/user/signup" class="text-muted">Signup</a></h6>
         </div>
-        <div class="form-container">
+        <div class="form-container mt-4">
             <form id="authForm" method="post">
                 <input type="hidden" id="context" name="context" value="aiSearch">
                 <div class="form-floating mb-3">
@@ -37,21 +37,12 @@
       </div>
       <div class="right-container">
         <div class="thought">
-         <div>Recommend a dish..</div>
-         <span id="element"></span>
+            <span> One who you all need to: <br></span>
+            <span id="element"></span>
         </div>   
       </div>
     </div>
     <%- include('./partials/scripts') %>
-
-    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
-    <!-- Setup and start animation -->
-    <script>
-        var typed = new Typed('#element', {
-        strings: ["to impress a date who's picky eater.....", 'to bring to a potluck.....', '"to unlock a world of recipes!"','to be the chef everyone talks about'],
-        typeSpeed: 50,
-        });
-    </script>
 </body>
 <!-- <script src="/javascripts/login.js" /> -->
  <script>
@@ -63,4 +54,13 @@
           form.action = '/blog/signin';
         }
  </script>
+     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+ <script>
+  var typed = new Typed('#element', {
+    strings: ['Bake something for your loved one.', 'For a perfect date night.', 'To make you feel special.', 'Refresh your mind.'],
+    typeSpeed: 80,
+    loop: true,
+  });
+</script>
 </html>
