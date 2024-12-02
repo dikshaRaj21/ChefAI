@@ -32,7 +32,7 @@ app.use(setUserLocals)
 app.set('view engine', 'ejs');
 app.set('views', path.resolve("./views"));
 app.use(express.static(path.resolve('./public')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve uploaded files
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve uploaded files
 
 app.use((err, req, res, next) => {
    console.error(err.stack);
@@ -58,7 +58,6 @@ app.get('/AllBlogs', async (req, res) => {
       const user = req.session.user;
 
       res.locals.user = user; 
-      // console.log(user);
        res.render("AllBlogs", {
           user : user,
           blogs: allBlogs
@@ -80,10 +79,6 @@ app.get("/utube", (req, res) => {
    });
 })
 
-
-app.get('/about', (req, res) => {
-   res.render('About');
-})
 app.get('/contact', (req, res) => {
    res.render('Contact');
 })
@@ -107,7 +102,7 @@ app.post('/contact', async (req, res) => {
 
 })
 
-const PORT = 8002;
+const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
     console.log(`Server is listening at port:${PORT}`);
